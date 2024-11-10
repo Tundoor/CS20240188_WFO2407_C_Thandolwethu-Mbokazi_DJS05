@@ -8,23 +8,17 @@ let state = {
 function incrementCount(state) {
    return {
     ...state,
-    count: state.count += 1
+    count: state.count + 1
    } 
 }
-
-console.log(incrementCount(state))
-console.log(incrementCount(state))
 
 // resets the state to the initial state
 function decrementCount(state) {
     return {
      ...state,
-     count: state.count -= 1
+     count: state.count - 1
     } 
  }
- 
- console.log(decrementCount(state))
-
  // resets thee state to its initial state
  function resetCount(state) {
      return {
@@ -33,4 +27,30 @@ function decrementCount(state) {
      }
  }
 
- console.log(resetCount(state))
+ // This function gets the state of the store
+
+ function getState() {
+    return state;
+ }
+ 
+
+ console.log(getState())
+
+ function actionDispatcher(action) {
+    switch (action.type) {
+        case 'INCREMENT':
+            state = incrementCount(state);
+            break;
+        case 'DECREMENT':
+            state = decrementCount(state);
+            break;
+        case 'RESET':
+            state = resetCount(state);
+            break;}
+            console.log(getState())}
+
+// Dispatching actions
+actionDispatcher({ type: 'INCREMENT' }); 
+actionDispatcher({ type: 'INCREMENT' }); 
+actionDispatcher({ type: 'DECREMENT' }); 
+actionDispatcher({ type: 'RESET' });     
