@@ -6,37 +6,36 @@ let state = {
 // function to increment the count
 
 function incrementCount(state) {
-   return {
-    ...state,
-    count: state.count + 1
-   } 
+    return {
+        ...state,
+        count: state.count + 1
+    }
 }
 
 // resets the state to the initial state
 function decrementCount(state) {
     return {
-     ...state,
-     count: state.count - 1
-    } 
- }
- // resets thee state to its initial state
- function resetCount(state) {
-     return {
+        ...state,
+        count: state.count - 1
+    }
+}
+// resets thee state to its initial state
+function resetCount(state) {
+    return {
         ...state,
         count: 0
-     }
- }
+    }
+}
 
- // This function gets the state of the store
+// Store the current state
+let subscribers = [];
 
- function getState() {
+// This function gets the state of the store
+function getState() {
     return state;
- }
- 
+}
 
- console.log(getState())
-
- function actionDispatcher(action) {
+function dispatch(action) {
     switch (action.type) {
         case 'INCREMENT':
             state = incrementCount(state);
@@ -46,11 +45,29 @@ function decrementCount(state) {
             break;
         case 'RESET':
             state = resetCount(state);
-            break;}
-            console.log(getState())}
+            break;
+        default:
+            return state
+    }
+
+    notifySubscribers();
+}   // Adds a new subscriber function that listens to state changes
+function subscribe(callback) {
+    subscribers.push(callback);
+}
+
+// Calls all subscriber functions with the updated state
+function notifySubscribers() {
+    subscribers.forEach(callback => callback(state));
+}
+
+// subscription to code
+subscribe((newState) => {
+    console.log("State changed:", newState);
+});
 
 // Dispatching actions
-actionDispatcher({ type: 'INCREMENT' }); 
-actionDispatcher({ type: 'INCREMENT' }); 
-actionDispatcher({ type: 'DECREMENT' }); 
-actionDispatcher({ type: 'RESET' });     
+dispatch({ type: 'INCREMENT' });
+dispatch({ type: 'INCREMENT' });
+dispatch({ type: 'DECREMENT' });
+dispatch({ type: 'RESET' });     
